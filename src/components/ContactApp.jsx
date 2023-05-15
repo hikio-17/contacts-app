@@ -3,8 +3,8 @@ import Navigation from './Navigation';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import AddPage from '../pages/AddPage';
-import Register from '../pages/Register';
-import Login from '../pages/Login';
+import RegisterPage from '../pages/RegisterPage';
+import LoginPage from '../pages/LoginPage';
 
 class ContactApp extends React.Component {
   constructor(props) {
@@ -25,8 +25,8 @@ class ContactApp extends React.Component {
 
           <main>
             <Routes>
-              <Route path="*" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
             </Routes>
           </main>
         </div>
