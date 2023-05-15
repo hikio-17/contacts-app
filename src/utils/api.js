@@ -108,7 +108,9 @@ async function getContacts() {
 }
 
 async function deleteContact(id) {
-  const response = await fetchWithToken(`${BASE_URL}/contacts/${id}`);
+  const response = await fetchWithToken(`${BASE_URL}/contacts/${id}`, {
+    method: 'DELETE',
+  });
   const responseJson = await response.json();
 
   if (responseJson.status !== 'success') {
