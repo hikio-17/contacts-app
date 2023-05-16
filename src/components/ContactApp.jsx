@@ -6,13 +6,30 @@ import AddPage from '../pages/AddPage';
 import RegisterPage from '../pages/RegisterPage';
 import LoginPage from '../pages/LoginPage';
 import { getUserLogged, putAccessToken } from '../utils/api';
+import { LocaleProvider } from '../contexts/LocaleContext';
 
 class ContactApp extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      authedUser: null
+      authedUser: null,
+      initializing: true,
+      localeContext: {
+        locale: localStorage.getItem('locale') || 'id',
+        toggleLocale: () => {
+          this.setState((prevState) => {
+            const newLocale = prevState.localeContext.locale === 'id' ? 'en' : 'id';
+            localStorage.setItem('locale', newLocale);
+            return {
+              localeContext: {
+                ...prevState.localeContext,
+                locale: newLocale,
+              }
+            }
+          })
+        }
+      }
     }
 
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
@@ -31,7 +48,8 @@ class ContactApp extends React.Component {
   render() {
     if (this.state.authedUser === null) {
       return (
-        <div className="contact-app">
+        <LocaleProvider value={this.state.localeContext}>
+          <div className="contact-app">
           <header className="contact-app__header">
             <h1>Aplikasi Kontak</h1>
           </header>
@@ -43,12 +61,14 @@ class ContactApp extends React.Component {
             </Routes>
           </main>
         </div>
+        </LocaleProvider>
       )
     }
     return (
-      <div className="contact-app">
+      <LocaleProvider value={this.state.localeContext}>
+        <div className="contact-app">
         <header className="contact-app__header">
-          <h1>Aplikasi Kontak</h1>
+          <h1>{this.state.localeContext.locale === 'id' ? 'Aplikasi Kontak' : 'Contact'}</h1>
           <Navigation />
         </header>
 
@@ -59,6 +79,7 @@ class ContactApp extends React.Component {
           </Routes>
         </main>
       </div>
+      </LocaleProvider>
     );
   }
 }
